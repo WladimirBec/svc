@@ -47,7 +47,9 @@ One day when unlinking a service I accidently removed my whole /var/service dire
 git clone https://github.com/WladimirBec/svc.git --depth 1
 cd svc
 make
-./bld/svc
+make PREFIX=~/.local install # to install it locally
+make install # to install it globally (in /usr/bin)
+./bld/svc # or to just run it without installing
 ```
 
 ## TODO:

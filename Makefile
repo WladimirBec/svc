@@ -1,4 +1,6 @@
-BLDD := $(abspath ./bld)
+DESTDIR ?=
+PREFIX  ?= /usr
+BLDD    := $(abspath ./bld)
 
 CC     ?= clang
 CFLAGS := -Wall -Wextra -Werror \
@@ -17,6 +19,12 @@ $(BLDD):
 $(OBJS): $(BLDD)/%.o: %.c | $(BLDD)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+install: $(BLDD)/svc
+	install -Dm755 $< $(DESTDIR)$(PREFIX)/bin/svc
+
+uninstall:
+	rm -f $(DESTDIR)$(PREFIX)/bin/svc
+
 clean:
 	rm -fr $(BLDD)
 	rm -f compile_commands.json
@@ -34,4 +42,4 @@ compdb:
 		echo "]"; \
 	) > ./compile_commands.json
 
-.PHONY: clean compdb
+.PHONY: install uninstall clean compdb

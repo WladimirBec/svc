@@ -311,7 +311,7 @@ find_cmd(int argc, char **argv)
     } else if (strcasecmp(cmd, "unlink") == 0) {
         return cmd_unlink;
     } else if (strcasecmp(cmd, "view") == 0) {
-        return cmd_help;
+        return cmd_view;
     } else if (strcasecmp(cmd, "help") == 0) {
         return cmd_help;
     } else if (strcasecmp(cmd, "sig-stop") == 0) {
@@ -446,7 +446,7 @@ main(int argc, char **argv)
     } else if (c == cmd_up) {
         reqs = CMD_REQ_SVC | CMD_REQ_SVC_LINKED | CMD_REQ_SVC_DOWN;
     } else if (c == cmd_link) {
-        reqs = CMD_REQ_SVC | CMD_REQ_SVC_NOT_LINKED;
+        reqs = CMD_REQ_SVC | CMD_REQ_SVC_NOT_LINKED | CMD_REQ_AVAILABLE_EXISTS;
     } else if (c == cmd_unlink) {
         reqs = CMD_REQ_SVC | CMD_REQ_SVC_LINKED;
     } else if (c == cmd_view) {
