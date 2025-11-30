@@ -1,0 +1,17 @@
+---
+BasedOnStyle: LLVM
+IndentWidth: 4
+BreakBeforeBraces: Linux
+ColumnLimit: 79
+AlignConsecutiveAssignments:
+  Enabled: true
+AlignConsecutiveMacros: true
+AlignEscapedNewlines: Left
+AllowShortBlocksOnASingleLine: Never
+AllowAllArgumentsOnNextLine: true
+AlwaysBreakAfterReturnType: AllDefinitions
+AllowShortCaseLabelsOnASingleLine: true
+AlignConsecutiveShortCaseStatements:
+  Enabled: true
+BinPackArguments: false
+BinPackParameters: false
