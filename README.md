@@ -39,7 +39,7 @@ The default command is view.
 
 ## Why this tool even exists ?
 
-One day when unlinking a service I accidently removed my whole /var/service directory, so from the hungryness this tool is born.
+One day when unlinking a service I accidently removed my whole /var/service directory, so from the angryness this tool is born.
 
 ## Building
 
