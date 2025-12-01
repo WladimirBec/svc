@@ -254,7 +254,7 @@ static int
 cmd_help(UNUSED cfg *config, UNUSED int argc, char **argv)
 {
     printf("%s [command] [args]...\n\n", argv[0]);
-    puts("    SVC is a small and simple wrapper around sv.\n");
+    puts("    SVC is a small and simple alternative to sv.\n");
     puts("Environments:\n");
     puts("    SVDIR: running services directory (default: /var/service/)");
     puts("    AVDIR: available services directory (default: /etc/sv/)\n");

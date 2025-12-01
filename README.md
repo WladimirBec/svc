@@ -1,7 +1,7 @@
 ```
 ./bld/svc [command] [args]...
 
-    SVC is a small and simple wrapper around sv.
+    SVC is a small and simple alternative to sv.
 
 Environments:
 
@@ -41,6 +41,75 @@ The default command is view.
 
 One day when unlinking a service I accidently removed my whole /var/service directory, so from the angryness this tool is born.
 
+## Why not just use `sv` ?
+
+Indeed, `sv` works, but this tool adds some features that are missing from the original `sv`.
+
+First it prints a nice table for a quick view of what's running:
+```
+$ doas svc
+PID   NAME            STATUS   DOWN  TIME    
+----  --------------  -------  ----  --------
+988   agetty-tty1     running  no    00:46:02
+986   agetty-tty2     running  no    00:46:02
+984   agetty-tty3     running  no    00:46:02
+985   agetty-tty4     running  no    00:46:02
+987   agetty-tty5     running  no    00:46:02
+990   agetty-tty6     running  no    00:46:02
+0     agetty-ttyUSB0  stopped  yes   00:04:11
+996   dbus            running  no    00:46:02
+1001  iwd             running  no    00:46:02
+1000  seatd           running  no    00:46:02
+993   udevd           running  no    00:46:02
+```
+
+It also shows you what services are available for you to link:
+```
+$ svc L # or svc list-availables
+/etc/sv/acpid
+/etc/sv/agetty-console
+/etc/sv/agetty-generic
+/etc/sv/agetty-hvc0
+/etc/sv/agetty-hvsi0
+/etc/sv/agetty-serial
+/etc/sv/agetty-tty1
+/etc/sv/agetty-tty2
+/etc/sv/agetty-tty3
+/etc/sv/agetty-tty4
+/etc/sv/agetty-tty5
+/etc/sv/agetty-tty6
+/etc/sv/agetty-ttyAMA0
+/etc/sv/agetty-ttyS0
+/etc/sv/agetty-ttyUSB0
+/etc/sv/dbus
+/etc/sv/dhcpcd
+/etc/sv/dhcpcd-eth0
+/etc/sv/sshd
+...
+```
+
+It simplify the way of enabling/disabling services:
+```
+$ doas svc l sshd # or doas svc link sshd
+linked sshd
+$ doas svc r sshd # or doas svc unlink sshd
+unlinked sshd
+```
+
+It offers a nice workflow to down/up services:
+```
+$ doas svc d sshd # or doas svc down sshd
+downed sshd
+$ doas svc u sshd # or doas svc up sshd
+upped sshd
+```
+
+Another feature of `svc` is the native support for sending signals to your services:
+```
+$ doas svc sig-hup sshd
+sent HUP signal to sshd
+```
+
 ## Building
 
 ```
@@ -55,8 +124,9 @@ make install # to install it globally (in /usr/bin)
 ## TODO:
 
 - [ ] Talk about how the envs can be used.
-- [ ] Make the README shinny
 
 ## Thanks to
 
 - @archlinux.btw who unfortunately passed away too soon, we miss you...
+- @runit25
+- Haris
