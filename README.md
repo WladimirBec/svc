@@ -14,6 +14,7 @@ Commands:
     s, start [service]    start a service
     S, stop [service]     stop a service
     o, once [service]     start a service once
+    R, restart [service]  restart a service
     d, down [service]     down a service
     u, up [service]       up a service
     l, link [service]     link a service
@@ -110,6 +111,15 @@ $ doas svc sig-hup sshd
 sent HUP signal to sshd
 ```
 
+## What the environment variables do ?
+
+`svc` uses two environment variables to modify its behavior.
+
+The first one is `SVDIR` which has the same utility as when used with `sv`, it specifies where the services directory is located, by default just like with `sv` it's set to `/var/service`.
+If you use user-level runit services and you desire to manage them with `svc` you can set `SVDIR` to your services directory, like so: `SVDIR=~/services svc view` .
+
+The second one is `AVDIR` and it specifies where to find a collection of predefined runit services, by default it's set to `/etc/sv`.
+
 ## Building
 
 ```
@@ -120,10 +130,6 @@ make PREFIX=~/.local install # to install it locally
 make install # to install it globally (in /usr/bin)
 ./bld/svc # or to just run it without installing
 ```
-
-## TODO:
-
-- [ ] Talk about how the envs can be used.
 
 ## Thanks to
 
