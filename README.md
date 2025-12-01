@@ -51,17 +51,23 @@ First it prints a nice table for a quick view of what's running:
 $ doas svc
 PID   NAME            STATUS   DOWN  TIME    
 ----  --------------  -------  ----  --------
-988   agetty-tty1     running  no    00:46:02
-986   agetty-tty2     running  no    00:46:02
-984   agetty-tty3     running  no    00:46:02
-985   agetty-tty4     running  no    00:46:02
-987   agetty-tty5     running  no    00:46:02
-990   agetty-tty6     running  no    00:46:02
-0     agetty-ttyUSB0  stopped  yes   00:04:11
-996   dbus            running  no    00:46:02
-1001  iwd             running  no    00:46:02
-1000  seatd           running  no    00:46:02
-993   udevd           running  no    00:46:02
+995   agetty-tty1     running  no    00:30:52
+994   agetty-tty2     running  no    00:30:52
+991   agetty-tty3     running  no    00:30:52
+996   agetty-tty4     running  no    00:30:52
+997   agetty-tty5     running  no    00:30:52
+993   agetty-tty6     running  no    00:30:52
+0     agetty-ttyUSB0  stopped  yes   00:30:52
+1006  dbus            running  no    00:30:52
+1005  dbus/log        running  no    00:30:52
+1010  iwd             running  no    00:30:52
+1008  iwd/log         running  no    00:30:52
+1012  seatd           running  no    00:30:52
+1009  seatd/log       running  no    00:30:52
+1015  sshd            running  no    00:30:52
+1014  sshd/log        running  no    00:30:52
+1001  udevd           running  no    00:30:52
+1000  udevd/log       running  no    00:30:52
 ```
 
 It also shows you what services are available for you to link:
@@ -115,10 +121,11 @@ sent HUP signal to sshd
 
 `svc` uses two environment variables to modify its behavior.
 
-The first one is `SVDIR` which has the same utility as when used with `sv`, it specifies where the services directory is located, by default just like with `sv` it's set to `/var/service`.
+The first one is `SVDIR` which has the same utility as when used with `sv`, it specifies where the services directory are located, just like with `sv` the default is set to `/var/service`.
+
 If you use user-level runit services and you desire to manage them with `svc` you can set `SVDIR` to your services directory, like so: `SVDIR=~/services svc view` .
 
-The second one is `AVDIR` and it specifies where to find a collection of predefined runit services, by default it's set to `/etc/sv`.
+The second one is `AVDIR` and it specifies where to find a collection of predefined runit services, the default is set to `/etc/sv`.
 
 ## Building
 
