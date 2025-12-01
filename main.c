@@ -81,6 +81,17 @@ IMPL_CONTROL_CMD(stop, 'd', "failed to stop %s", "stopped %s")
 IMPL_CONTROL_CMD(once, 'o', "failed to start once %s", "started once %s")
 
 static int
+cmd_restart(cfg *config, UNUSED int argc, char **argv)
+{
+    int r = cmd_stop(config, argc, argv);
+    if (r == 0) {
+        r = cmd_start(config, argc, argv);
+    }
+
+    return r;
+}
+
+static int
 cmd_down(cfg *config, UNUSED int argc, char **argv)
 {
     if (svc_down(config, argv[2]) == -1) {
@@ -252,6 +263,7 @@ cmd_help(UNUSED cfg *config, UNUSED int argc, char **argv)
     puts("    s, start [service]    start a service");
     puts("    S, stop [service]     stop a service");
     puts("    o, once [service]     start a service once");
+    puts("    R, restart [service]  restart a service");
     puts("    d, down [service]     down a service");
     puts("    u, up [service]       up a service");
     puts("    l, link [service]     link a service");
@@ -287,6 +299,7 @@ find_cmd(int argc, char **argv)
         case 's': return cmd_start;
         case 'S': return cmd_stop;
         case 'o': return cmd_once;
+        case 'R': return cmd_restart;
         case 'd': return cmd_down;
         case 'u': return cmd_up;
         case 'l': return cmd_link;
@@ -302,6 +315,8 @@ find_cmd(int argc, char **argv)
         return cmd_stop;
     } else if (strcasecmp(cmd, "once") == 0) {
         return cmd_once;
+    } else if (strcasecmp(cmd, "restart") == 0) {
+        return cmd_restart;
     } else if (strcasecmp(cmd, "down") == 0) {
         return cmd_down;
     } else if (strcasecmp(cmd, "up") == 0) {
@@ -441,6 +456,8 @@ main(int argc, char **argv)
         reqs = CMD_REQ_SVC | CMD_REQ_SVC_LINKED | CMD_REQ_SVC_RUNNING;
     } else if (c == cmd_once) {
         reqs = CMD_REQ_SVC | CMD_REQ_SVC_LINKED | CMD_REQ_SVC_NOT_RUNNING;
+    } else if (c == cmd_restart) {
+        reqs = CMD_REQ_SVC | CMD_REQ_SVC_LINKED | CMD_REQ_SVC_RUNNING;
     } else if (c == cmd_down) {
         reqs = CMD_REQ_SVC | CMD_REQ_SVC_LINKED | CMD_REQ_SVC_NOT_DOWN;
     } else if (c == cmd_up) {
