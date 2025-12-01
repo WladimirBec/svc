@@ -154,6 +154,24 @@ end:
     return s;
 }
 
+int
+create_svc(arr_of(svc *) * list, int fd, char const *name)
+{
+    svc *service = svc_new(fd, name);
+    if (service == NULL) {
+        wrap_last_error("failed to create svc '%s'", name);
+        return -1;
+    }
+
+    if (arr_append((arr_ptr *)list, service) < 0) {
+        set_last_error("append to array failed: %s", strerror(errno));
+        free(service);
+        return -1;
+    }
+
+    return 0;
+}
+
 arr_of(svc *) list_services(char const *svdir, arr_of(char *) entries)
 {
     int fd = open(svdir, O_RDONLY | O_RDONLY);
@@ -167,18 +185,24 @@ arr_of(svc *) list_services(char const *svdir, arr_of(char *) entries)
         set_last_error("failed to allocate array: %s", strerror(errno));
     } else {
         for (size_t i = 0; i < arr_len(entries); ++i) {
-            svc *service = svc_new(fd, entries[i]);
-            if (service == NULL) {
-                wrap_last_error("failed to create svc '%s'", entries[i]);
+            if (create_svc(&list, fd, entries[i]) < 0) {
             err:
                 arr_free_free((arr_ptr)list, free);
                 list = NULL;
                 break;
             }
 
-            if (arr_append((arr_ptr *)&list, service) < 0) {
-                set_last_error("append to array failed: %s", strerror(errno));
-                free(service);
+            char path[512] = {0};
+            if (io_snprintf(path, 512, "%s/log", entries[i]) == -1) {
+                wrap_last_error("io_snprintf failed");
+                goto err;
+            }
+
+            int r = io_existsat(fd, path);
+            if (r == -1) {
+                wrap_last_error("failed to check if %s exists", path);
+                goto err;
+            } else if (r == 1 && create_svc(&list, fd, path) < 0) {
                 goto err;
             }
         }
