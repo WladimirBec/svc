@@ -6,7 +6,7 @@ CC     ?= clang
 CFLAGS := -Wall -Wextra -Werror \
 		  -D_POSIX_C_SOURCE=202405L -D_XOPEN_SOURCE=800 -D_GNU_SOURCE \
 		  -std=c99 \
-		  $(if $(filter 1,$(DEBUG)),-O0 -g -mno-avx -mno-avx512f,-O3 -flto -pipe -march=native -static)
+		  $(if $(filter 1,$(DEBUG)),-O0 -g -mno-avx -mno-avx512f,-O3 -flto -pipe -static)
 SRCS   := $(wildcard *.c)
 OBJS   := $(patsubst %.c,$(BLDD)/%.o,$(SRCS))
 
