@@ -311,7 +311,7 @@ svc_down(cfg *config, char const *name)
         return -1;
     }
 
-    int fd = creat(path, 644);
+    int fd = creat(path, 0644);
     if (fd == -1) {
         set_last_error("creat failed: %s", strerror(errno));
         return -1;
