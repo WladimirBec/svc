@@ -178,6 +178,7 @@ arr_of(svc *) list_services(char const *svdir, arr_of(char *) entries)
 
             if (arr_append((arr_ptr *)&list, service) < 0) {
                 set_last_error("append to array failed: %s", strerror(errno));
+                free(service);
                 goto err;
             }
         }
